@@ -31,4 +31,8 @@ public class BwertrDriver {
     public String givenRatingShown() {
         return webDriver.findElement(By.id("givenRating")).getText();
     }
+
+    public String averageRatingShown() {
+        return webDriver.findElement(By.id("averageRating")).getText();
+    }
 }

@@ -8,4 +8,6 @@ public interface Presentation {
     void addRating(String rating);
 
     int numberOfRatings();
+
+    String averageRating();
 }

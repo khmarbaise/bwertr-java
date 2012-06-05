@@ -4,23 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class JdbcPresentation implements Presentation {
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+    private Ratings ratings;
+
+    @Autowired
+    public JdbcPresentation(JdbcTemplate jdbcTemplate, Ratings ratings) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.ratings = ratings;
+    }
 
     @Override
     public List<String> possibleRatings() {
-        return Arrays.asList("Poor", "Average", "Excellent");
+        return ratings.possibleRatings();
     }
 
     @Override
     public void addRating(String rating) {
-        jdbcTemplate.update("INSERT INTO RATINGS (RATING) VALUES (?)", valueOf(rating));
+        jdbcTemplate.update("INSERT INTO RATINGS (RATING) VALUES (?)", ratings.valueOf(rating));
     }
 
     @Override
@@ -28,7 +33,25 @@ public class JdbcPresentation implements Presentation {
         return jdbcTemplate.queryForInt("SELECT COUNT(*) FROM RATINGS");
     }
 
-    private int valueOf(String rating) {
-        return possibleRatings().indexOf(rating);
+    @Override
+    public String averageRating() {
+        return ratings.textFor(averageOf(allRatings()));
     }
+
+    private int averageOf(List<Integer> allRatings) {
+        return (int) Math.round((double) sum(allRatings) / allRatings.size());
+    }
+
+    private int sum(List<Integer> ratings) {
+        int sum = 0;
+        for (int rating : ratings) {
+            sum += rating;
+        }
+        return sum;
+    }
+
+    private List<Integer> allRatings() {
+        return jdbcTemplate.queryForList("SELECT * FROM RATINGS", Integer.class);
+    }
+
 }

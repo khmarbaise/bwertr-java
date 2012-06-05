@@ -34,6 +34,7 @@ public class BwertrController {
     public String rate(@RequestParam String rating, Map model) {
         presentation.addRating(rating);
         model.put("givenRating", rating);
+        model.put("averageRating", presentation.averageRating());
         return "thankYou";
     }
 
