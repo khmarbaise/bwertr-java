@@ -24,18 +24,19 @@ public class BwertrController {
         return asList("Poor", "Average", "Excellent");
     }
 
-    @SuppressWarnings({"unchecked"})
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String welcome(Map model) {
-        model.put("numberOfRatings", jdbcTemplate.queryForInt("SELECT COUNT(*) FROM RATINGS"));
+    public String welcome(Map<String, Object> model) {
+        model.put("numberOfRatings", numberOfRatings());
         return "welcome";
     }
 
-    @SuppressWarnings({"unchecked"})
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String rate(@RequestParam String rating, Map model) {
+    public String rate(@RequestParam String rating, Map<String, Object> model) {
         model.put("givenRating", rating);
         return "thankYou";
     }
 
+    private int numberOfRatings() {
+    	return jdbcTemplate.queryForInt("SELECT COUNT(*) FROM RATINGS");
+    }
 }

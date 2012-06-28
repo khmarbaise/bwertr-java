@@ -15,7 +15,6 @@ public abstract class AbstractBwertrSpec {
     }
 
     @Test
-    @SuppressWarnings({"UnusedDeclaration"})
     public final void runConcordion() throws IOException {
         ResultSummary summary = new ConcordionBuilder().build().process(this);
         summary.print(System.out, this);

@@ -12,18 +12,38 @@ public class ShowNumberOfRatingsTest extends AbstractSpringBwertrSpec {
     private JdbcTemplate jdbcTemplate;
 
     public String numberOfRatingsShownWhenThereAre(int numberOfRatings) {
-        // Ensure number of ratings exist
-        // * Reset bwertr
-        jdbcTemplate.update("DELETE FROM RATINGS");
-        // * Create number of ratings
-        for (int count = 0; count < numberOfRatings; count ++) {
-            jdbcTemplate.update("INSERT INTO RATINGS (RATING) VALUES (?)", 1);
-        }
+        
+        ensureNumberOfRatingsExist(numberOfRatings);
+
         // Visit bwertr
-        WebDriver webDriver = new HtmlUnitDriver();
-        webDriver.get("http://localhost:8080");
+        WebDriver webDriver = visitBwertr();
         // Return number of ratings shown
-        return webDriver.findElement(By.id("numberOfRatings")).getText();
+        return numberOfRatingsShown(webDriver);
     }
+
+	private String numberOfRatingsShown(WebDriver webDriver) {
+		return webDriver.findElement(By.id("numberOfRatings")).getText();
+	}
+
+	private WebDriver visitBwertr() {
+		WebDriver webDriver = new HtmlUnitDriver();
+        webDriver.get("http://localhost:8080");
+		return webDriver;
+	}
+
+	private void ensureNumberOfRatingsExist(int numberOfRatings) {
+		resetBwertr();
+		for (int count = 0; count < numberOfRatings; count ++) {
+            rateWith();
+        }
+	}
+
+	private int rateWith() {
+		return jdbcTemplate.update("INSERT INTO RATINGS (RATING) VALUES (?)", 1);
+	}
+
+	private void resetBwertr() {
+		jdbcTemplate.update("DELETE FROM RATINGS");
+	}
 
 }

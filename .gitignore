@@ -2,3 +2,6 @@
 target
 var
 *.iml
+.classpath
+.project
+.settings
