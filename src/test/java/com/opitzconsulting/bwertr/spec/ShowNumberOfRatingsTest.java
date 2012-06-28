@@ -11,24 +11,14 @@ public class ShowNumberOfRatingsTest extends AbstractSpringBwertrSpec {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final WebDriver webDriver = new HtmlUnitDriver();
-
     public String numberOfRatingsShownWhenThereAre(int numberOfRatings) {
         
         ensureNumberOfRatingsExist(numberOfRatings);
 
-        visitBwertr();
+        bwertrDriver.visitBwertr();
 
-        return numberOfRatingsShown();
+        return bwertrDriver.numberOfRatingsShown();
     }
-
-	private String numberOfRatingsShown() {
-		return webDriver.findElement(By.id("numberOfRatings")).getText();
-	}
-
-	private void visitBwertr() {
-		webDriver.get("http://localhost:8080");
-	}
 
 	private void ensureNumberOfRatingsExist(int numberOfRatings) {
 		resetBwertr();

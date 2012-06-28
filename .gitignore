@@ -5,3 +5,5 @@ var
 .classpath
 .project
 .settings
+*.ipr
+*.iws
