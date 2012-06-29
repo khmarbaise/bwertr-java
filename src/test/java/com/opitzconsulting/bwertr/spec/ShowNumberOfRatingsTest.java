@@ -1,8 +1,6 @@
 package com.opitzconsulting.bwertr.spec;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -22,7 +20,7 @@ public class ShowNumberOfRatingsTest extends AbstractSpringBwertrSpec {
 
 	private void ensureNumberOfRatingsExist(int numberOfRatings) {
 		resetBwertr();
-		for (int count = 0; count < numberOfRatings; count ++) {
+        for (int count = 0; count < numberOfRatings; count ++) {
             rateWith();
         }
 	}

@@ -1,5 +1,10 @@
 package com.opitzconsulting.bwertr.controller;
 
+import static java.util.Arrays.asList;
+
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -7,11 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
-import java.util.Map;
-
-import static java.util.Arrays.asList;
 
 @Controller
 public class BwertrController {
@@ -37,6 +37,6 @@ public class BwertrController {
     }
 
     private int numberOfRatings() {
-    	return jdbcTemplate.queryForInt("SELECT COUNT(*) FROM RATINGS");
+        return jdbcTemplate.queryForInt("SELECT COUNT(*) FROM RATINGS");
     }
 }
